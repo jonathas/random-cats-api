@@ -18,7 +18,7 @@ export class CatsService {
     return this.catsRepository.find();
   }
 
-  public async createCat() {
+  /*public async createCat() {
     const cat = this.catsRepository.create({
       title: 'Cat',
       image_url: 'https://cdn2.thecatapi.com/images/MTYwNjUxNQ.jpg',
@@ -26,4 +26,15 @@ export class CatsService {
     await this.catsRepository.save(cat);
     return cat;
   }
+
+  public async rateCat() {
+    const cat = await this.catsRepository.findOneOrFail({
+      order: {
+        id: 'DESC',
+      },
+    });
+    cat.rating = Math.floor(Math.random() * 5) + 1;
+    await this.catsRepository.save(cat);
+    return cat;
+  }*/
 }

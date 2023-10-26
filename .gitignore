@@ -38,3 +38,5 @@ resources/db/data
 
 # Compodoc generated
 documentation
+
+.env
