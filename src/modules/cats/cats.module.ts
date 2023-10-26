@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ratings } from './entities/ratings.entity';
 import { Images } from './entities/images.entity';
 import { ImporterService } from './importer.service';
-import { AWSModule } from '../providers/aws/aws.module';
+import { AWSModule } from '../../providers/aws/aws.module';
 import { ConfigModule } from '@nestjs/config';
 import { RatingsService } from './ratings.service';
 

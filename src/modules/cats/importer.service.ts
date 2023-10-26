@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { readFile } from 'fs/promises';
+import { writeFile, readFile } from 'fs/promises';
 import { Readable } from 'stream';
 import { ReadableStream } from 'stream/web';
 import { Injectable } from '@nestjs/common';
@@ -17,11 +17,9 @@ export class ImporterService {
   ) {}
 
   public async import() {
-    await this.downloadJSON();
+    const json = await this.fetchJSON();
 
-    const data = JSON.parse(await readFile(this.dbPath, 'utf8'));
-
-    const cats = data.map((cat) =>
+    const cats = json.map((cat) =>
       this.catsRepository.create({
         title: cat.title,
         imageUrl: cat.image
@@ -30,11 +28,9 @@ export class ImporterService {
     return this.catsRepository.save(cats);
   }
 
-  private async downloadJSON() {
+  private async fetchJSON() {
     const url = 'https://hook.eu1.integromat.com/10r7cd1lcwve9j241i98k1f3nn4o3j8g';
-
-    Readable.fromWeb((await fetch(url)).body as ReadableStream<unknown>).pipe(
-      fs.createWriteStream(this.dbPath)
-    );
+    const data = await fetch(url);
+    return data.json();
   }
 }

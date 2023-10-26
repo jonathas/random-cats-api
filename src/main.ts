@@ -20,8 +20,7 @@ async function bootstrap() {
       'Accept',
       'x-api-key',
       'Strict-Transport-Security',
-      'X-Content-Type-Options',
-      'x-csrf-token'
+      'X-Content-Type-Options'
     ],
     credentials: true,
     origin: 'http://localhost:4200'
