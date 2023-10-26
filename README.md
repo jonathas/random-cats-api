@@ -10,6 +10,11 @@ This is a REST API in NestJS where you can:
 - Fetch a random cat
 - Import a list of cats from a url into the DB
 
+Extra features:
+
+- API Key authentication
+- AWS S3 integration
+
 ## Tech
 
 - NestJS
@@ -30,7 +35,7 @@ $ npm i
 2) Start the containers:
 
 ```bash
-docker compose -f ./resources/docker-compose.yml up 
+$ docker compose -f ./resources/docker-compose.yml up 
 ```
 
 3) Start the API:
@@ -45,3 +50,19 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Documentation
+
+### Compodoc
+
+You can have a good overview about the project by running Compodoc:
+
+```bash
+$ npm run compodoc
+```
+
+This will generate a directory called "documentation" with several files, so you can open the index.html file on your browser.
+
+### Postman collection
+
+A [Postman](https://www.postman.com/downloads/) collection can be found inside of the docs directory. You can just import it to Postman and start using it to interact with the API.
