@@ -5,7 +5,7 @@
 This is a REST API in NestJS where you can:
 
 - Create a cat
-- Rate a cate
+- Rate a cat
 - Fetch all cats
 - Fetch a random cat
 - Import a list of cats from a url into the DB
