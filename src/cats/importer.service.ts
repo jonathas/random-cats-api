@@ -3,7 +3,7 @@ import { readFile } from 'fs/promises';
 import { Readable } from 'stream';
 import { ReadableStream } from 'stream/web';
 import { Injectable } from '@nestjs/common';
-import { Cats } from '../entities/cats.entity';
+import { Cats } from './entities/cats.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 

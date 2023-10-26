@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cats } from './entities/cats.entity';
 import { Repository } from 'typeorm';
@@ -9,6 +9,8 @@ import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'crypto';
 import { Images } from './entities/images.entity';
 import { CatDto } from './dto/cat.dto';
+import { RateCatInput } from './dto/rate-cat.input';
+import { RatingsService } from './ratings.service';
 
 @Injectable()
 export class CatsService {
@@ -19,6 +21,7 @@ export class CatsService {
     private readonly catsRepository: Repository<Cats>,
     @InjectRepository(Images)
     private readonly imagesRepository: Repository<Images>,
+    private readonly ratingsService: RatingsService,
     private readonly s3Service: S3Service,
     private readonly config: ConfigService
   ) {
@@ -42,11 +45,16 @@ export class CatsService {
         )
       : [];
 
+    const ratings = await this.ratingsService.getRatingsSumCountAndAverage(cat.id);
+
     return {
       id: cat.id,
       title: cat.title,
       imageUrl: cat.imageUrl,
       images: presignedUrls,
+      rating: ratings.average,
+      ratingSum: ratings.sum,
+      ratingCount: ratings.count,
       createdAt: cat.createdAt
     };
   }
@@ -64,15 +72,20 @@ export class CatsService {
     const catsResponse: CatDto[] = [];
 
     for (const cat of cats) {
+      const ratings = await this.ratingsService.getRatingsSumCountAndAverage(cat.id);
+
       const res = {
         id: cat.id,
         title: cat.title,
         imageUrl: cat.imageUrl,
         images: [],
+        rating: ratings.average,
+        ratingSum: ratings.sum,
+        ratingCount: ratings.count,
         createdAt: cat.createdAt
       };
 
-      if (cat.images.length) {
+      if (cat?.images?.length) {
         res.images = await Promise.all(
           cat.images.map((image) =>
             this.s3Service.getSignedUrl({
@@ -111,14 +124,12 @@ export class CatsService {
     return cat;
   }
 
-  /*public async rateCat() {
-    const cat = await this.catsRepository.findOneOrFail({
-      order: {
-        id: 'DESC',
-      },
-    });
-    cat.rating = Math.floor(Math.random() * 5) + 1;
-    await this.catsRepository.save(cat);
-    return cat;
-  }*/
+  public async rateCat(catId: number, input: RateCatInput) {
+    const cat = await this.catsRepository.findOne({ where: { id: catId } });
+    if (!cat) {
+      throw new NotFoundException('Cat not found');
+    }
+
+    return this.ratingsService.rateCat(catId, input.rating);
+  }
 }

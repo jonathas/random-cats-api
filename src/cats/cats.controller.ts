@@ -3,17 +3,19 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Param,
   ParseFilePipeBuilder,
   Post,
   UploadedFiles,
   UseGuards,
   UseInterceptors
 } from '@nestjs/common';
-import { ImporterService } from './importer/importer.service';
+import { ImporterService } from './importer.service';
 import { CatsService } from './cats.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateCatInput } from './dto/create-cat.input';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { RateCatInput } from './dto/rate-cat.input';
 
 @UseGuards(AuthGuard('api-key'))
 @Controller('cats')
@@ -54,10 +56,10 @@ export class CatsController {
     return this.catsService.createCat(images, input);
   }
 
-  /*@Post(':id/ratings')
-  public rateCat() {
-    return this.catsService.rateCat();
-  }*/
+  @Post(':id/ratings')
+  public rateCat(@Param('id') id: number, @Body() input: RateCatInput) {
+    return this.catsService.rateCat(id, input);
+  }
 
   @Post('import')
   public import() {
