@@ -26,9 +26,7 @@ export class AWSService {
       this.configService.get<AwsConfig>('aws').localstackSecretAccessKey;
   }
 
-  protected injectLocalStackEndpointToConfigForDevAndTest(
-    config:  S3ClientConfig
-  ) {
+  protected injectLocalStackEndpointToConfigForDevAndTest(config: S3ClientConfig) {
     /**
      * @see https://docs.localstack.cloud/tools/local-endpoint-injection/
      */

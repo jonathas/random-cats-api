@@ -1,4 +1,13 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 import { Ratings } from './ratings.entity';
 import { Images } from './images.entity';
 
@@ -10,7 +19,12 @@ export class Cats {
   @Column('varchar', { name: 'title', length: 255 })
   public title: string;
 
-  @Column('varchar', { name: 'image_url', length: 255, comment: 'When providing a url, it should be saved here', nullable: true })
+  @Column('varchar', {
+    name: 'image_url',
+    length: 255,
+    comment: 'When providing a url, it should be saved here',
+    nullable: true
+  })
   public imageUrl: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

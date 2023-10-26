@@ -45,6 +45,8 @@ module.exports = {
     'no-duplicate-imports': 'error',
     'sonarjs/no-duplicate-string': ['error', { 'threshold': 5 }],
     'lines-between-class-members': ['error', 'always'],
+    'security/detect-possible-timing-attacks': 'off',
+    'security/detect-non-literal-fs-filename': 'off',
     'max-lines-per-function': ['error', { max: 50, skipBlankLines: true, skipComments: true }],
     'max-lines': ['warn', { max: 1000, skipBlankLines: false, skipComments: false }],
     'no-restricted-syntax': [

@@ -23,4 +23,4 @@ import { AuthModule } from './auth/auth.module';
     CatsModule
   ]
 })
-export class AppModule { }
+export class AppModule {}

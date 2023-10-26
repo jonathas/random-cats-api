@@ -20,18 +20,20 @@ export class ImporterService {
     await this.downloadJSON();
 
     const data = JSON.parse(await readFile(this.dbPath, 'utf8'));
-  
-    const cats = data.map((cat) => this.catsRepository.create({
-      title: cat.title,
-      imageUrl: cat.image
-    }));
+
+    const cats = data.map((cat) =>
+      this.catsRepository.create({
+        title: cat.title,
+        imageUrl: cat.image
+      })
+    );
     return this.catsRepository.save(cats);
   }
 
   private async downloadJSON() {
     const url = 'https://hook.eu1.integromat.com/10r7cd1lcwve9j241i98k1f3nn4o3j8g';
-  
-    Readable.fromWeb((await fetch(url)).body as ReadableStream<any>).pipe(
+
+    Readable.fromWeb((await fetch(url)).body as ReadableStream<unknown>).pipe(
       fs.createWriteStream(this.dbPath)
     );
   }

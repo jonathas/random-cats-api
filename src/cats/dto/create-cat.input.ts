@@ -6,5 +6,5 @@ export class CreateCatInput {
 
   @IsUrl()
   @IsOptional()
-  public image_url?: string;
+  public imageUrl?: string;
 }

@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpStatus, ParseFilePipeBuilder, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  ParseFilePipeBuilder,
+  Post,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common';
 import { ImporterService } from './importer/importer.service';
 import { CatsService } from './cats.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -14,39 +24,43 @@ export class CatsController {
   ) {}
 
   @Get()
-  public async getCats() {
+  public getCats() {
     return this.catsService.getAllCats();
   }
 
   @Get('random')
-  public async getRandomCat() {
+  public getRandomCat() {
     return this.catsService.getRandomCat();
   }
 
   @Post()
   @UseInterceptors(FilesInterceptor('images'))
-  public async createCat(@UploadedFiles(
-    new ParseFilePipeBuilder()
-    .addFileTypeValidator({
-      fileType: /(png|jpg|jpeg)/,
-    })
-    .addMaxSizeValidator({
-      maxSize: 10 * 1024 * 1024
-    })
-    .build({
-      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
-    }),
-  ) images: Array<Express.Multer.File>, @Body() input: CreateCatInput) {
+  public createCat(
+    @UploadedFiles(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: /(png|jpg|jpeg)/
+        })
+        .addMaxSizeValidator({
+          maxSize: 10 * 1024 * 1024
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
+        })
+    )
+    images: Array<Express.Multer.File>,
+    @Body() input: CreateCatInput
+  ) {
     return this.catsService.createCat(images, input);
   }
 
   /*@Post(':id/ratings')
-  public async rateCat() {
+  public rateCat() {
     return this.catsService.rateCat();
   }*/
 
   @Post('import')
-  public async import() {
+  public import() {
     return this.importerService.import();
   }
 }

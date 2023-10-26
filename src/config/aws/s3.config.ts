@@ -9,6 +9,8 @@ export interface S3BucketsConfig {
   catImagesBucket: S3BucketResourceConfig;
 }
 
+export const PRESIGNED_S3_URL_EXPIRATION_SECONDS = 10;
+
 export default registerAs(
   's3',
   (): S3BucketsConfig => ({

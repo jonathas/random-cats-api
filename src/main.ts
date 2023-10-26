@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
+
+const logger = new Logger('main');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,12 +21,13 @@ async function bootstrap() {
       'x-api-key',
       'Strict-Transport-Security',
       'X-Content-Type-Options',
-      'x-csrf-token',
+      'x-csrf-token'
     ],
     credentials: true,
-    origin: 'http://localhost:4200',
+    origin: 'http://localhost:4200'
   });
 
   await app.listen(3000);
 }
-bootstrap();
+
+bootstrap().catch((err) => logger.error(err));

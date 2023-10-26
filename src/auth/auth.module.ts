@@ -5,6 +5,6 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [PassportModule, ConfigModule],
-  providers: [HeaderApiKeyStrategy],
+  providers: [HeaderApiKeyStrategy]
 })
 export class AuthModule {}
