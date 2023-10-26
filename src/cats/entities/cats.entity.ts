@@ -10,8 +10,8 @@ export class Cats {
   @Column('varchar', { name: 'title', length: 255 })
   public title: string;
 
-  @Column('varchar', { name: 'image_url', length: 255, comment: 'When providing a url, it should be saved here' })
-  public image_url: string;
+  @Column('varchar', { name: 'image_url', length: 255, comment: 'When providing a url, it should be saved here', nullable: true })
+  public imageUrl: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   public createdAt: Date;

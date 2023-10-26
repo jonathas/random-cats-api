@@ -14,7 +14,7 @@ export default registerAs(
   'database',
   (): DatabaseConfig => ({
     database:
-      process.env.NODE_ENV === Environments.TEST ? 'catstest' : process.env.DATABASE_NAME || 'cats',
+      process.env.NODE_ENV === Environments.TEST ? 'test' : process.env.DATABASE_NAME || 'cats',
     host: process.env.DATABASE_HOST || 'localhost',
     port: parseInt(process.env.DATABASE_PORT) || 5432,
     username: process.env.DATABASE_USER || 'root',

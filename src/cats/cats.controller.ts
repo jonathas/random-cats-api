@@ -1,7 +1,9 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, ParseFilePipeBuilder, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ImporterService } from './importer/importer.service';
 import { CatsService } from './cats.service';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateCatInput } from './dto/create-cat.input';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @UseGuards(AuthGuard('api-key'))
 @Controller('cats')
@@ -21,12 +23,24 @@ export class CatsController {
     return this.catsService.getRandomCat();
   }
 
-  /*@Post()
-  public async createCat() {
-    return this.catsService.createCat();
+  @Post()
+  @UseInterceptors(FilesInterceptor('images'))
+  public async createCat(@UploadedFiles(
+    new ParseFilePipeBuilder()
+    .addFileTypeValidator({
+      fileType: /(png|jpg|jpeg)/,
+    })
+    .addMaxSizeValidator({
+      maxSize: 10 * 1024 * 1024
+    })
+    .build({
+      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
+    }),
+  ) images: Array<Express.Multer.File>, @Body() input: CreateCatInput) {
+    return this.catsService.createCat(images, input);
   }
 
-  @Post(':id/ratings')
+  /*@Post(':id/ratings')
   public async rateCat() {
     return this.catsService.rateCat();
   }*/

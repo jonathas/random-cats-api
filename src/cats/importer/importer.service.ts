@@ -23,7 +23,7 @@ export class ImporterService {
   
     const cats = data.map((cat) => this.catsRepository.create({
       title: cat.title,
-      image_url: cat.image
+      imageUrl: cat.image
     }));
     return this.catsRepository.save(cats);
   }
